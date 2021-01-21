@@ -1,0 +1,15 @@
+<h1 style="text-align: center" class="display-3">Reset Pass</h1>
+
+<% if(!locals.resetPassToken || !resetPassToken.isValid){ %>
+    <div class="alert alert-danger" style="margin:auto;width:60%;">
+        <span>Your Link is Expired</span>
+    </div> 
+<% } else{%>
+    <form action="/users/reset_pass/<%= resetPassToken.token %>" method="POST">
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input name="password" required type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-primary">Create New Password</button>
+      </form>
+<% } %>   

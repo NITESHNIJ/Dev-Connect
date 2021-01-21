@@ -1,0 +1,8 @@
+<ul class="list-group">
+  <% for(user of Users){ %> 
+    <a href="/users/viewuser/<%= user._id %>" class="list-group-item">
+      <img src="<%= user.avatar %>" height="50px" width="50px" style="border-radius: 50%;" alt="">
+      <%= user.name %> 
+    </a>
+  <% } %> 
+  </ul>

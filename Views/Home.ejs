@@ -1,0 +1,87 @@
+<div style="margin-top:30;">
+    <% if(locals.user){ %>
+    <form id="new-post-form" action="/posts/create" enctype="multipart/form-data"  method="POST">
+        <h1 class="dislpay-3">Posts</h1>
+        <div class="form-group">
+            <!-- <label for="exampleFormControlTextarea1"><span class="text-white">Post What Are u Working On..</span></label> -->
+            <textarea name="content" placeholder="Post What's on Your Mind" class="form-control"
+                id="exampleFormControlTextarea1" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Upload Picture</label>
+            <input name="post_img" type="file" class="form-control" id="file">
+        </div>
+        <button class="btn btn-primary">Post</button>
+    </form>
+    <% } %>
+    <div id="post-container" class="post-container">
+        <ul style="list-style-type: none;">
+            <% Object.keys(locals.posts).map((id)=>{ %>
+            <li id="post-<%= posts[id]._id %>" style="margin:5">
+                <div class="card" style="width: 18rem;">
+                    <% if(posts[id].post_img){ %>
+                        <img src="<%= posts[id].post_img %>" class="card-img-top"
+                        alt="...">
+                    <% } else{ %>  
+                    <img style="display: none;" src="https://homepages.cae.wisc.edu/~ece533/images/airplane.png" class="card-img-top"
+                        alt="...">
+                    <% } %> 
+                    <div class="card-body">
+                        <h5 class="card-title">By <%= posts[id].user.name  %> </h5>
+                        <p class="card-text"><%= posts[id].content %> </p>
+                    </div>
+                    <div style=" display: flex; flex-direction: row; justify-content: space-evenly;padding-bottom:10;">
+                        <a href="/likes/toggle/?id=<%= posts[id]._id %>&type=Post" class="card-link Like-bt"><i class="far fa-thumbs-up"><%= posts[id].likes.length %></i></a>
+                        
+                        <i onclick="toggle(this.id)" style="font-size: medium;" id="<%=posts[id]._id%>"
+                            class="fas fa-comments"></i>
+                        <!-- <button onclick="toggle(this.id)" class="btn btn-info" id="<%=id%>">Comment</a></button> -->
+                        <% if(locals.user && user.id===posts[id].user.id) {%>
+                        <a id="delete-link" href="/posts/destroy/<%= posts[id]._id %>"><i class="fas fa-trash"></i></a>
+                        <% } %>
+                    </div>
+                    <div class="card-body" id='comment-form-<%=posts[id]._id%>' style="display: none;">
+                        <form id="C-form"  action="/comments/create" method="POST">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Add Comment</label>
+                                <input type="text" required name="content" class="form-control" id="exampleInputEmail1"
+                                    aria-describedby="emailHelp" placeholder="Add Comment">
+                            </div>
+                            <input type="hidden" name="post" value="<%= posts[id]._id %>">
+                            <button type="submit"  id="comment-btn-1"  class="btn btn-primary btn-sm">Submit</button>
+                        </form>
+                        <div id="comments-container">
+                            <ul style="list-style-type: none;">
+                                <% posts[id].comments && posts[id].comments.map((comment)=>{ %>
+                                <li id="<%= comment._id %>" class="m-3">
+                                    <% if(locals.user && (user.id===comment.user.id || posts[id].user.id==user.id)) {%>
+                                        <a class="comment-delete-link-<%= comment._id %>"  href="/comments/destroy/<%= comment._id %>"><i class="fas fa-trash"></i></a>
+                                        <% } %>
+                                    <h5 class="display-6">By <%=comment.user.name %> </h5>
+                                    <p class="card-text"><%=comment.content %> </p>
+                                </li>
+                                <% }) %>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+    <%- include('_chat_box.ejs')  %> 
+</div>
+
+<script src="/js/home_script.js"></script>
+
+<script src="/js/post_script.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+<% if(locals.user){ %> 
+<script>
+    new ChatEngine('user-chat-box','<%= locals.user.email %>');
+</script>
+<% } %> 

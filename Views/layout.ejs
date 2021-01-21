@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" type="text/css" href="/css/layout.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/b37c9bbe8f.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%- style  %>
+</head>
+
+<body>
+    <%- include('_header');%>
+
+    <% if(flash.success && flash.success.length>0) {%>
+    <div id='flash-message' class="alert alert-primary" style="margin:auto;width:60%;">
+        <%= flash.success %>
+    </div>
+    <% } %>
+    <div class="container sm-100">
+        <%- body  %>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        setTimeout(() => {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 5000)
+    });
+</script>
+<%- script  %>
+
+</html>

@@ -1,0 +1,27 @@
+<h2 class="display-5" style="text-align: center;">User Profile</h2>
+<div class="card mb-4">
+    <h4 class="card-header bg-dark text-white">
+        <img src="<%= user1.avatar %>" alt="Ni mili photu yaar" width="100" height="100" style="border-radius: 50%;">
+        <%= user1.name %> 
+    </h4>
+    <ul class="list-group">
+        <li class="list-group-item">
+            <span class="badge badge-success mr-2">Name:</span><%= locals.user1.name %> 
+        </li>
+        <li class="list-group-item">
+            <span class="badge badge-success mr-2">Email:</span><%= locals.user1.email %>
+        </li>
+        <% if(locals.user && locals.user.id!=user1.id) {%> 
+        <li class="list-group-item">
+            <% if(alreadyFriend){ %> 
+            <span id="<%= user1.id %>"class="badge badge-danger mr-2 add-friend">UNFOLLOW</span>
+            <% }else{ %>
+            <span id="<%= user1.id %>"class="badge badge-danger mr-2 add-friend">FOLLOW</span>
+            <% } %>  
+        </li>
+    <% } %> 
+    </ul>
+</div>
+<script src="/js/add_friend.js">
+
+</script>
